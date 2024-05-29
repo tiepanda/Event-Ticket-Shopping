@@ -1,0 +1,64 @@
+﻿@model TicketDTO
+@{
+    Layout = "_AdminLayout";
+}
+<div style="width:50%">
+    <h2> Add Event / Ticket </h2>
+    <a asp-action="Index" asp-controller="Ticket" class="btn btn-primary">Back</a>
+    <form asp-action="AddTicket" enctype="multipart/form-data">
+        @* <input type="hidden" asp-for="Id" /> *@
+
+        <div class="my-2">
+            <label>Event / Ticket Name*</label>
+            <input type="text" class="form-control" asp-for="TicketName" />
+            <span asp-validation-for="TicketName" class="text-danger"></span>
+        </div>
+
+        <div class="my-2">
+            <label>Publisher*</label>
+            <input type="text" class="form-control" asp-for="PublisherName" />
+            <span asp-validation-for="PublisherName" class="text-danger"></span>
+        </div>
+
+        <div class="my-2">
+            <label>Discription*</label>
+            <textarea type="text" class="form-control" asp-for="Discription"></textarea>
+            <span asp-validation-for="Discription" class="text-danger"></span>
+        </div>
+
+        <div class="my-2">
+            <label>Location*</label>
+            <input type="text" class="form-control" asp-for="Location" />
+            <span asp-validation-for="Location" class="text-danger"></span>
+        </div>
+
+        <div class="my-2">
+            <label>Date*</label>
+            <input type="datetime-local" class="form-control" asp-for="Date" />
+            <span asp-validation-for="Date" class="text-danger"></span>
+        </div>
+
+        <div class="my-2">
+            <label>Category*</label>
+            <select class="form-control" asp-for="CategoryId" asp-items="Model.CategoryList">
+                <option value="">Select Category</option>
+            </select>
+            <span asp-validation-for="CategoryId" class="text-danger"></span>
+        </div>
+
+        <div class="my-2">
+            <label>Price*</label>
+            <input type="number" class="form-control" asp-for="Price" />
+            <span asp-validation-for="Price" class="text-danger"></span>
+        </div>
+
+        <div class="my-2 ">
+            <label>Image</label>
+            <input type="file" class="form-control btn-outline-dark" asp-for="ImageFile" />
+        </div>
+
+        <div class="my-2">
+            <button type="submit" class="btn btn-outline-success fw-bolder">Create </button>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,57 @@
+﻿@model IEnumerable<Ticket>
+@{
+    Layout = "_AdminLayout";
+}
+
+<h2>Tickets</h2>
+
+<a asp-action="AddTicket" asp-controller="Ticket" class="btn btn-primary">Add More</a>
+
+@if(Model?.Count()>0)
+{
+    <table class="table table-striped my-2">
+        <tr>
+            <th>Poster</th>
+            <th>Ticket</th>
+            <th>Publisher</th>
+            <th>Discription</th>
+            <th>Location</th>
+            <th>Date</th>
+            <th>Category</th>
+            <th>Price</th>
+            <th>Action</th>
+        </tr>
+
+        @foreach (var ticket in Model)
+        {
+            <tr>
+                <td class=" col col-md-1">
+                    @if(string.IsNullOrWhiteSpace(ticket.Image))
+                    {
+                        <img src="/Images/NoImage.png" style="width:80px;height:100px" alt="ticket image" />
+                    }
+                    else
+                    {
+                        <img src="/images/@ticket.Image" style="width:100px;height:100px" alt="ticket image" />
+                    }
+                </td>
+                <td>@ticket.TicketName</td>
+                <td>@ticket.PublisherName</td>
+                <td class=" col col-md-3">@ticket.Discription</td>
+                <td>@ticket.Location</td>
+                <td class=" col col-md-1">@ticket.Date</td>
+                <td>@ticket.Category.CategoryName</td>
+                <td >@ticket.Price</td>
+                <td >
+                    <a asp-action="UpdateTicket" asp-controller="Ticket" asp-route-id="@ticket.Id" class="btn btn-success"><i class="bi bi-pen"></i> Edit</a>
+                    <a asp-action="DeleteTicket" asp-controller="Ticket" asp-route-id="@ticket.Id" class="btn btn-danger" onclick="return window.confirm('Are you sure?')"><i class="bi bi-trash-fill"></i> Delete</a>
+                </td>
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <h3>No records</h3>
+}
+

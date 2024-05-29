@@ -1,0 +1,96 @@
+﻿@model TicketDisplayModel
+@{
+
+}
+<div class="mt-2">
+    <form asp-action="Index" class="row row-cols-lg-auto g-2 align-items-center">
+        <div class="col-12">
+            <label class="visually-hidden" for="categoryId">Categorys</label>
+            <select class="btn btn-secondary dropdown-toggle" id="categoryId" name="categoryId">
+                <option selected>Category  </option>
+                @foreach (var category in Model.Categorys)
+                {
+                    <option selected="@(category.Id == Model.CategoryId)" value="@category.Id">@category.CategoryName</option>
+                }
+            </select>
+        </div>
+
+        <div class="col-12">
+            <label class="visually-hidden" for="sterm">Search by title</label>
+            <div class="input-group">
+                <div class="input-group-text"><i class="bi bi-search"></i></div>
+                <input type="text" class="form-control" value="@Model.STerm" id="sterm" name="sterm" placeholder="Sarch by title">
+            </div>
+        </div>
+
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary bg-gradient">Search</button>
+            <a href="/Home/Index" class="btn btn-dark bg-gradient">Reset</a>
+        </div>
+    </form>
+</div>
+
+<div class=" my-4 d-flex flex-wrap " style=" width: 120%">
+    @foreach (var ticket in Model.Tickets)
+    {
+        <div class="card mx-3 mb-4 border-0 p-3 shadow broder-top broder-5 rounded" style="width: 25rem">
+            @if (string.IsNullOrEmpty(ticket.Image))
+            {
+                <img style="width:100%;height:180px" src="/images/NoImage.png" class="card-img-top" alt="...">
+
+            }
+            else
+            {
+                <img style="width:100%;height:380px" src="/images/@ticket.Image" class="card-img-top" alt="...">
+            }
+            <div class="card-body">
+                <h5 class="card-title fw-bolder">@ticket.TicketName</h5>
+                <p class="card-text">
+                    <b class="text-info">Category: </b>@ticket.CategoryName <br />
+                    <b class="text-info">Hoster: </b>@ticket.PublisherName <br />
+                    <b class="text-info">Date: </b>@ticket.Date <br />
+                    <b>"@ticket.Discription " </b><br />
+                    <b class="text-info">Entry Fee: </b><i class="text-success bi bi-currency-rupee fw-bolder"></i><b class="text-success fw-bolder">@ticket.Price </b> <br />
+                    <b class="text-primary">Tickets left : @ticket.Quantity</b>
+                </p>
+                @if (ticket.Quantity > 0)
+                {
+                    <button type="button" onclick="add(@ticket.Id)" class="btn btn-primary bg-gradient">Add to cart</button>
+                }
+                else
+                {
+                    <span style="border: 1px solid;padding: 5px 8px;color: red;border-radius: 5px;">Out of stock</span>
+                }
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts{
+    <script>
+        async function add(ticketId) {
+             var usernameEl = document.getElementById("username");
+        if(usernameEl==null){
+            window.location.href = "/Identity/Account/Login";
+          //var username=usernameEl.innerText;
+          //  if(username.length<1){
+          //      window.location.href="/Identity/Account/Login";
+          //  }
+        }
+            try {
+                var response = await fetch(`/Cart/AddItem?ticketId=${ticketId}`);
+                if (response.status == 200) {
+                    var result = await response.json();
+                    var cartCountEl = document.getElementById("cartCount");
+                    cartCountEl.innerHTML = result;
+                    window.location.href = "#cartCount";
+                }
+            }
+            catch (err) {
+                console.log(err);
+            }
+        }
+    </script>
+}
+
+
