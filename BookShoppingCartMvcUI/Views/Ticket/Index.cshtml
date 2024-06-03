@@ -44,7 +44,10 @@
                 <td >@ticket.Price</td>
                 <td >
                     <a asp-action="UpdateTicket" asp-controller="Ticket" asp-route-id="@ticket.Id" class="btn btn-success"><i class="bi bi-pen"></i> Edit</a>
-                    <a asp-action="DeleteTicket" asp-controller="Ticket" asp-route-id="@ticket.Id" class="btn btn-danger" onclick="return window.confirm('Are you sure?')"><i class="bi bi-trash-fill"></i> Delete</a>
+                    <a asp-action="DeleteTicket" asp-controller="Ticket" asp-route-id="@ticket.Id" class="btn btn-danger" 
+                    onclick="return window.confirm('Are you sure?')">
+                        <i class="bi bi-trash-fill"></i> Delete
+                    </a>
                 </td>
             </tr>
         }
